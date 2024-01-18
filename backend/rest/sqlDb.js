@@ -10,30 +10,38 @@ class SqlLite {
         });
     }
 
-    createTable() {
-        const sql = `
-            CREATE TABLE IF NOT EXISTS users (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL,
-                email TEXT NOT NULL UNIQUE
-            )
-        `;
-
-        this.db.run(sql, (err) => {
-            if (err) {
-                console.error(err.message);
-            } else {
-                console.log('Table created');
-            }
+    run(sql, params = []) {
+        return new Promise((resolve, reject) => {
+            this.db.run(sql, params, function(err) {
+                if (err) {
+                    console.error('Error running sql: ' + sql);
+                    console.error(err);
+                    reject(err);
+                } else {
+                    resolve({ id: this.lastID });
+                }
+            });
         });
     }
 
+    async createTables(sqlCommands) {
+        for (const sql of sqlCommands) {
+            await this.run(sql);
+            console.log('Table created');
+        }
+    }
+
     close() {
-        this.db.close((err) => {
-            if (err) {
-                console.error(err.message);
-            }
-            console.log('Close the database connection.');
+        return new Promise((resolve, reject) => {
+            this.db.close((err) => {
+                if (err) {
+                    console.error(err.message);
+                    reject(err);
+                } else {
+                    console.log('Close the database connection.');
+                    resolve();
+                }
+            });
         });
     }
 }
