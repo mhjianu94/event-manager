@@ -45,18 +45,32 @@ class dbModels {
         this.sync()
     }
 
+    sync = async()=>{
+        await this.sequelize.sync({force:true}).then(() => {
+            console.log("Tables created!");
+        });
+    }
+
      syncForce = async()=>{
         await this.sequelize.sync().then(() => {
             console.log("Tables created!");
         });
     }
 
-    insertUser = async (name,email)=>{
-        await this.User.create({ name, email });
+    insertUser = async (name,email)=> {
+        try {
+            await this.User.create({ name, email });
+        } catch (e) {
+            console.log("Error adding user: ", e)
+        }
     }
 
     insertEvent = async (title, description, eventDate, userId) => {
-        await this.SocialEvent.create({ title, description, eventDate, userId });
+        try {
+            await this.SocialEvent.create({ title, description, eventDate, userId });            
+        } catch (error) {
+            console.log("Error adding social event: ", e)
+        }
     }
 
 }

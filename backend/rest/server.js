@@ -4,7 +4,7 @@ import SqlLdbModels from "./models.js";
 
 const app = express();
 const port = 3000;
-const sqlModels = {}
+let sqlModels = {}
 app.use(express.json());
 
 async function setupDatabase() {
@@ -21,9 +21,10 @@ function startServer() {
     });
 }
 
-
-app.get('user/get', (req, res) => {
-    res.json(items);
+app.get('user/:userId', (req, res) => {
+    const userId = req.params.userId;
+    sqlModels.getUser(userId)
+    res.json();
 });
 
 app.post('/user/add', (req, res) => {
@@ -35,6 +36,19 @@ app.post('/user/add', (req, res) => {
     }catch(e) {
         console.log("Failed to add user")
         res.body = {message: "Failed to add user"}
+        res.status(500).send('Failed');
+    }
+});
+
+app.post('/event/add', (req, res) => {
+    const {title, description, eventDate, userId} = req.body;
+    try { 
+        sqlModels.insertEvent(title, description, eventDate, userId)
+        res.body = {message: "Succes add event"}
+        res.status(201).send('Event added');
+    }catch(e) {
+        console.log("Failed to add event")
+        res.body = {message: "Failed to add event"}
         res.status(500).send('Failed');
     }
 });

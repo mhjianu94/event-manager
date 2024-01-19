@@ -1,0 +1,14 @@
+.user-form-container {
+    width: 600px;
+    border: 1px solid lightgrey;
+    padding: 30px;
+    margin: 10px;
+    border-radius: 10px; 
+}
+
+.submitButton{
+    margin-top:10px;
+}
+.form-group{
+    margin-bottom: 20px;
+}
