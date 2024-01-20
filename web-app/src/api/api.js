@@ -33,13 +33,14 @@ export const createEvent = async (eventData) => {
 };
 
 export const getEvents = async (eventData) => {
-    console.log("userData ", eventData)
+    console.log("EventData ", eventData)
     try {
         const response = await axios.get(`${API_URL}/events`, {
             headers: {
                 'Content-Type': 'application/json'
             }
         });
+        console.log("sponse.data: ",response.data)
         return response.data;
     } catch (error) {
         console.error('Error getting  events:', error);

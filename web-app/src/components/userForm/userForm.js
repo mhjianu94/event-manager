@@ -1,10 +1,11 @@
 import './styles.css';
-import React from 'react';
-import { useMyState } from '../../state/State';
+import React, {useState} from 'react';
+import { useMyState} from '../../state/State';
 import {createUser} from "../../api/api.js"
 
 const UserForm = () => {
     const { State, updateState } = useMyState();
+    const [setReloadUsers] = useState(false);
 
     const handleInputChange = (e) => {
         updateState('user', e.target.name, e.target.value);
@@ -12,8 +13,12 @@ const UserForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        createUser(State.user)
-        console.log('Submit User Data:', State.user);
+        createUser(State.user).then(() => {
+            updateState('userAdded', true); 
+            setReloadUsers(true); 
+        }).catch(error => {
+            console.error('Error creating user:', error);
+        });
     };
 
     return (

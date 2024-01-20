@@ -11,7 +11,8 @@ import {
   Footer,
   EventForm,
   BingMaps,
-  UserList
+  UserList,
+  EventsList
 } from "./components/index.js";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -26,6 +27,7 @@ function App() {
           eventForm={<EventForm/>}
           bingMaps={<BingMaps bingMapsKey={"AuGE3UFdOs8I9xH6QXcFSYzYXRFShV7emQl9dxPetYPnadC-9hCaOTAwsSSku1w_"}/>}
           userList={<UserList/>}
+          eventsList= {<EventsList/>}
         >
         </MainContainer>
         <Footer/>

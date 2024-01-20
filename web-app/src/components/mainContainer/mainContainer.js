@@ -22,6 +22,7 @@ const MainContainer = (props) => {
         </div>
         <div className="split-container">
             {props.userList}
+            {props.eventsList}
         </div>
         {props.bingMaps}
     </div>

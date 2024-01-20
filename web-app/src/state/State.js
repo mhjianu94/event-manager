@@ -15,6 +15,9 @@ export const MyStateProvider = ({ children }) => {
             description: '',
             eventDate: '',
         },
+        selectedUserId: null, 
+        userAdded: false,
+        eventAdded:false
     });
 
     useEffect(() => {
@@ -22,15 +25,23 @@ export const MyStateProvider = ({ children }) => {
     }, [State]);
 
     const updateState = (section, key, value) => {
-        setState(prevState => ({
-            ...prevState,
-            [section]: {
-                ...prevState[section],
-                [key]: value
-            }
-        }));
-    };
 
+        if (section === 'selectedUserId') {
+            setState(prevState => ({
+                ...prevState,
+                selectedUserId: value
+            }));
+        } else {
+            setState(prevState => ({
+                ...prevState,
+                [section]: {
+                    ...prevState[section],
+                    [key]: value
+                }
+            }));
+        }
+    };
+    
     return (
         <MyStateContext.Provider value={{ State, updateState }}>
             {children}

@@ -1,9 +1,11 @@
-import "./styles.css"
 import React, { useState, useEffect } from 'react';
 import { getUsers } from '../../api/api.js'; 
+import { useMyState } from  "../../state/State.js";
 
 const UserList = () => {
     const [users, setUsers] = useState([]);
+    const [reloadUsers, setReloadUsers] = useState(false);
+    const { State, updateState } = useMyState(); 
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -12,12 +14,19 @@ const UserList = () => {
                 setUsers(fetchedUsers);
             } catch (error) {
                 console.error('Failed to fetch users:', error);
-                // Handle the error appropriately
+            } finally {
+                setReloadUsers(false); // Resetați flag-ul indiferent de rezultat
             }
         };
 
-        fetchUsers();
-    }, []);
+            fetchUsers();
+    }, [reloadUsers, State.userAdded]); 
+
+    const handleUserSelect = (userId) => {
+
+        updateState('selectedUserId', null, userId);
+    };
+
     return (
         <div className="user-list-container container mt-3">
             <div className="list-container">
@@ -25,7 +34,12 @@ const UserList = () => {
             </div>
             <ul className="list-group">
                 {users.map(user => (
-                    <li key={user.id} className="list-group-item">
+                    <li 
+                        key={user.id} 
+                        className={`list-group-item ${State.selectedUserId === user.id ? 'selected-user' : ''}`}
+                        onClick={() => handleUserSelect(user.id)}
+                        style={{ cursor: 'pointer' }}
+                    >
                         Email: {user.email}
                     </li>
                 ))}

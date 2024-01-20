@@ -1,13 +1,16 @@
 .user-list-container {
-    width: 400px;
+    width: 45% !important;
     border: 1px solid lightgrey;
     padding: 30px;
     margin: 10px;
     border-radius: 10px; 
-
 }
 
 .list-container{
     display: flex;
     flex-direction: row;
+}
+
+.selected-user {
+    border: 2px solid blue;
 }

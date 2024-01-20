@@ -1,31 +1,33 @@
-import "./styles.css"
+// EventsList.js
 import React, { useState, useEffect } from 'react';
 import { getEvents } from '../../api/api.js'; 
 
-const EventsList = () => {
+const EventsList = ({ selectedUserId }) => {
     const [events, setEvents] = useState([]);
 
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const events = await getEvents();
-                setEvents(events);
+                const fetchedEvents = await getEvents();
+                setEvents(fetchedEvents);
             } catch (error) {
-                console.error('Failed to fetch users:', error);
+                console.error('Failed to fetch events:', error);
             }
         };
 
         fetchEvents();
     }, []);
+
     return (
-        <div className="user-list-container container mt-3">
+        <div className="event-list-container container mt-3">
             <div className="list-container">
-                <h2>Users</h2>
+                <h2>Events</h2>
             </div>
             <ul className="list-group">
-                {events.map(event => (
+                {events.filter(event => !selectedUserId || event.userId === selectedUserId)
+                       .map(event => (
                     <li key={event.id} className="list-group-item">
-                        Events: {event.name}
+                        Title: {event.title} - {event.description}
                     </li>
                 ))}
             </ul>

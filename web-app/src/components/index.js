@@ -6,5 +6,16 @@ import MainContainer from "./mainContainer/mainContainer.js"
 import BingMaps from "./bingMap/bingMap.js"
 import Footer from "./footer/footer.js"
 import UserList from "./userList/userList.js"
+import EventsList from "./eventsList/eventsList.js"
 
-export  {Navbar, UserForm, Header, MainContainer ,Footer, EventForm, BingMaps, UserList} 
+export  {
+    Navbar, 
+    UserForm,
+    Header, 
+    MainContainer,
+    Footer, 
+    EventForm, 
+    BingMaps, 
+    UserList,
+    EventsList
+} 

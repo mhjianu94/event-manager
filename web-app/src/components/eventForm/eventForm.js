@@ -1,16 +1,32 @@
+import React, { useState, useEffect } from 'react';
 import './styles.css';
-import React from 'react';
-import {useMyState} from "../../state/State"
+import { useMyState } from "../../state/State";
+import { createEvent, getUsers } from "../../api/api.js";
 
 const EventForm = () => {
     const { State, updateState } = useMyState();
+    const [users, setUsers] = useState([]);
 
     const handleInputChange = (e) => {
         updateState('event', e.target.name, e.target.value);
     };
 
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const fetchedUsers = await getUsers();
+                setUsers(fetchedUsers);
+            } catch (error) {
+                console.error('Failed to fetch users:', error);
+            } 
+        };
+
+        fetchUsers();
+    }, []);
+
     const handleSubmit = (e) => {
         e.preventDefault();
+        createEvent(State.event)
         console.log('Submit Event Data:', State.event);
     };
 
@@ -55,6 +71,24 @@ const EventForm = () => {
                     />
                     <small className="form-text text-muted">Pick an event date</small>
                 </div>
+                <div className="form-group">
+                <label className="formLabel" htmlFor="eventUser">Event Date</label>
+                        <select 
+                            className="form-control" 
+                            id="eventUser"
+                            name="userId"
+                            value={State.event.userId}
+                            onChange={handleInputChange}
+                        >
+                            <option value="">Select a User</option>
+                            {users.map(user => (
+                                <option key={user.id} value={user.id}>
+                                    {user.name}
+                                </option>
+                            ))}
+                        </select>
+                        <small className="form-text text-muted">Pick an event date</small>
+                    </div>
                 <button className="btn btn-primary submitButton" type="submit">Submit</button>
             </form>
         </div>
