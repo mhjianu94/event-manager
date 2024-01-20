@@ -59,7 +59,7 @@ class dbModels {
 
     insertUser = async (name,email)=> {
         try {
-            await this.User.create({ name, email });
+            return await this.User.create({ name, email });
         } catch (e) {
             console.log("Error adding user: ", e)
         }
@@ -67,11 +67,29 @@ class dbModels {
 
     insertEvent = async (title, description, eventDate, userId) => {
         try {
-            await this.SocialEvent.create({ title, description, eventDate, userId });            
+            return await this.SocialEvent.create({ title, description, eventDate, userId });            
         } catch (error) {
             console.log("Error adding social event: ", e)
         }
     }
+
+    getAllUsers = async () => {
+        try {
+            return await this.User.findAll();
+        } catch (error) {
+            console.error("Error fetching users:", error);
+            throw error;
+        }
+    };
+
+    getAllEvents = async () => {
+        try {
+            return await this.SocialEvent.findAll();
+        } catch (error) {
+            console.error("Error fetching events:", error);
+            throw error;
+        }
+    };
 
 }
 
